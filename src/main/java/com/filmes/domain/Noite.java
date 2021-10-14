@@ -1,6 +1,9 @@
 package com.filmes.domain;
 
 
+import com.filmes.domain.enums.BebidaEnum;
+import com.filmes.domain.enums.ComidaEnum;
+import com.filmes.domain.enums.SobremesaEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,10 +17,10 @@ public class Noite {
 
     private Filme filme;
 
-    private String comida;
+    private ComidaEnum comida;
 
-    private String bebida;
+    private BebidaEnum bebida;
 
-    private String sobremesa;
+    private SobremesaEnum sobremesa;
 
 }

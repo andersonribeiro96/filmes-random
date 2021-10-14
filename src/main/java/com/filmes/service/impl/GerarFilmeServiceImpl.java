@@ -1,6 +1,7 @@
 package com.filmes.service.impl;
 
 import com.filmes.domain.*;
+import com.filmes.service.ComidaService;
 import com.filmes.service.GerarFilmeService;
 import com.filmes.service.TmdbRestTemplate;
 import org.springframework.stereotype.Service;
@@ -13,9 +14,11 @@ import java.util.Random;
 public class GerarFilmeServiceImpl implements GerarFilmeService {
 
     private final TmdbRestTemplate tmdbRestTemplate;
+    private final ComidaService comidaService;
 
-    public GerarFilmeServiceImpl( TmdbRestTemplate tmdbRestTemplate) {
+    public GerarFilmeServiceImpl(TmdbRestTemplate tmdbRestTemplate, ComidaService comidaService) {
         this.tmdbRestTemplate = tmdbRestTemplate;
+        this.comidaService = comidaService;
     }
 
     @Override
