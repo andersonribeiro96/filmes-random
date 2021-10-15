@@ -16,7 +16,7 @@ public class WebConfig {
 
     @Bean
     public FilterRegistrationBean<CorsFilter> corsFilterFilterRegistrationBean() {
-        List<String> all = Arrays.asList("*");
+        List<String> all = List.of("*");
 
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOrigins(all);
@@ -33,6 +33,4 @@ public class WebConfig {
         return filter;
 
     }
-
-
 }
