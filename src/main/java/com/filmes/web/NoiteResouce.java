@@ -15,7 +15,7 @@ public class NoiteResouce {
         this.noiteService = noiteService;
     }
 
-    @CrossOrigin
+    @CrossOrigin("*")
     @GetMapping("/discovery/{genero}/{ano}")
     public ResponseEntity<Object> discovery(@PathVariable("genero") String genero, @PathVariable("ano") Long ano){
         return ResponseEntity.ok(noiteService.gerarNoite(genero, ano));
