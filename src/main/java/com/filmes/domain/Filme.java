@@ -13,7 +13,8 @@ public class Filme {
 
     private String nome;
     private String link;
-
+    private String urlImage;
+    private String description;
 
 
 }

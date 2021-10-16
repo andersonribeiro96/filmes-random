@@ -62,6 +62,8 @@ public class GerarFilmeServiceImpl implements GerarFilmeService {
         return Filme.builder()
                 .nome(filme.getTitulo())
                 .link(providerWatch.getBR().getLink())
+                .urlImage("https://image.tmdb.org/t/p/original"+ filme.getImagemPoster())
+                .description(filme.getOverview())
                 .build();
     }
 

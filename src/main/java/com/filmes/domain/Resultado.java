@@ -15,11 +15,11 @@ public class Resultado implements Serializable {
     @JsonProperty("id")
     private String id;
 
+    @JsonProperty("poster_path")
+    private String imagemPoster;
 
+    @JsonProperty("overview")
+    private String overview;
 
-    
-    
-    
-    
     
 }
