@@ -1,9 +1,9 @@
 package com.filmes.service.impl;
 
 import com.filmes.domain.*;
-import com.filmes.service.ComidaService;
 import com.filmes.service.GerarFilmeService;
-import com.filmes.service.TmdbRestTemplate;
+import com.filmes.service.TmdbRestTemplateService;
+import com.filmes.web.exception.handler.ProviderWatchNaoEncontrandoException;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -13,64 +13,52 @@ import java.util.Random;
 @Service
 public class GerarFilmeServiceImpl implements GerarFilmeService {
 
-    private final TmdbRestTemplate tmdbRestTemplate;
-    private final ComidaService comidaService;
+    private final TmdbRestTemplateService tmdbRestTemplate;
 
-    public GerarFilmeServiceImpl(TmdbRestTemplate tmdbRestTemplate, ComidaService comidaService) {
+    public GerarFilmeServiceImpl(TmdbRestTemplateService tmdbRestTemplate) {
         this.tmdbRestTemplate = tmdbRestTemplate;
-        this.comidaService = comidaService;
     }
 
     @Override
-    public Filme gerarFilme(String genero, String quantidade) {
-        return criarPorQuantidade(genero, quantidade);
+    public Filme gerarFilme(String genero, String ano, String nota, String votos) throws Exception {
+        return criarPorAno(genero, ano, nota, votos);
     }
 
-    @Override
-    public Filme gerarFilme(String genero, Long ano) {
-        return criarPorAno(genero, ano);
-    }
-
-    private Filme criarPorAno(String genero, Long ano){
-        List<Resultado> resultados = tmdbRestTemplate.obterFilmes(genero, ano);
+    private Filme criarPorAno(String genero, String ano, String nota, String votos) throws Exception {
+        int repeticao = 0;
+        List<Resultado> resultados = tmdbRestTemplate.obterFilmes(genero, ano, nota, votos);
         Resultado filme = gerarFilmeAleatorio(resultados);
         ProviderWatch providerWatch = tmdbRestTemplate.obterProviderWatch(filme.getId());
+
         boolean watch = verificarProviderWatch(providerWatch);
 
-        while (!watch){
+        while (!watch) {
             filme = gerarFilmeAleatorio(resultados);
             providerWatch = tmdbRestTemplate.obterProviderWatch(filme.getId());
             watch = verificarProviderWatch(providerWatch);
+            repeticao++;
+
+            if(repeticao == 100){
+                throw new ProviderWatchNaoEncontrandoException();
+            }
         }
-        return filmeBuilder(filme, providerWatch);
+        return criarFilme(filme, providerWatch);
     }
 
-    private Filme criarPorQuantidade(String genero, String quantidade){
-        List<Resultado> resultados = tmdbRestTemplate.obterFilmes(genero, quantidade);
-        Resultado filme = gerarFilmeAleatorio(resultados);
-        ProviderWatch providerWatch = tmdbRestTemplate.obterProviderWatch(filme.getId());
-        boolean watch = verificarProviderWatch(providerWatch);
-        while (!watch){
-            filme = gerarFilmeAleatorio(resultados);
-            providerWatch = tmdbRestTemplate.obterProviderWatch(filme.getId());
-            watch = verificarProviderWatch(providerWatch);
-        }
-        return filmeBuilder(filme, providerWatch);
-    }
 
-    private Resultado gerarFilmeAleatorio(List<Resultado> resultados){
+    private Resultado gerarFilmeAleatorio(List<Resultado> resultados) {
         int total = resultados.size();
         Random random = new Random();
         return resultados.get(random.nextInt(total));
     }
 
-    private Boolean verificarProviderWatch(ProviderWatch resultado){
+    private Boolean verificarProviderWatch(ProviderWatch resultado) {
         List<Integer> ls = Arrays.asList(8, 384, 119, 9, 337, 499, 484, 619);
         List<Flatrate> flatrate = resultado.getBR().getFlatrate();
         return flatrate.stream().anyMatch(fla -> ls.contains(fla.getProvider_id()));
     }
 
-    private Filme filmeBuilder(Resultado filme, ProviderWatch providerWatch){
+    private Filme criarFilme(Resultado filme, ProviderWatch providerWatch) {
         return Filme.builder()
                 .nome(filme.getTitulo())
                 .link(providerWatch.getBR().getLink())

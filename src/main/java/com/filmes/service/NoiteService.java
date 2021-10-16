@@ -4,6 +4,6 @@ import com.filmes.domain.Noite;
 
 public interface NoiteService {
 
-    Noite gerarNoite(String genero, Long ano);
+    Noite gerarNoite(String genero, String ano, String nota, String votos) throws Exception;
 
 }

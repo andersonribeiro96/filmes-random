@@ -18,14 +18,9 @@ public class FilmesResouce {
         this.gerarFilmeService = gerarFilmeService;
     }
 
-    @GetMapping("/discovery/page/{genero}/{total}")
-    public ResponseEntity<Object> discovery(@PathVariable("genero") String genero, @PathVariable("total") String total){
-        return ResponseEntity.ok(gerarFilmeService.gerarFilme(genero, total));
-    }
-
-    @GetMapping("/discovery/year/{genero}/{ano}")
-    public ResponseEntity<Object> discovery(@PathVariable("genero") String genero, @PathVariable("ano") Long ano){
-        return ResponseEntity.ok(gerarFilmeService.gerarFilme(genero, ano));
+    @GetMapping("/discovery/year/{genero}/{ano}/{nota}/{votos}")
+    public ResponseEntity<Object> discovery(@PathVariable("genero") String genero, @PathVariable("ano") String ano, @PathVariable("nota") String nota, @PathVariable("votos") String votos) throws Exception {
+        return ResponseEntity.ok(gerarFilmeService.gerarFilme(genero, ano, nota, votos));
     }
 
 }

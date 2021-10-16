@@ -5,9 +5,8 @@ import com.filmes.domain.ProviderWatch;
 
 import java.util.List;
 
-public interface TmdbRestTemplate {
+public interface TmdbRestTemplateService {
 
-    List<Resultado> obterFilmes(String genero, String total);
-    List<Resultado> obterFilmes(String genero, Long ano);
+    List<Resultado> obterFilmes(String genero, String ano, String nota, String votos) throws Exception;
     ProviderWatch obterProviderWatch(String id);
 }

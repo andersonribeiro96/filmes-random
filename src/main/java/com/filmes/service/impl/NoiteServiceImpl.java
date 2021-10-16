@@ -24,8 +24,8 @@ public class NoiteServiceImpl implements NoiteService {
     }
 
     @Override
-    public Noite gerarNoite(String genero, Long ano) {
-        Filme filme = gerarFilmeService.gerarFilme(genero, ano);
+    public Noite gerarNoite(String genero, String ano, String nota, String votos) throws Exception {
+        Filme filme = gerarFilmeService.gerarFilme(genero, ano, nota, votos);
         ComidaEnum comidaEnum = comidaService.gerarComida();
         BebidaEnum bebidaEnum = bebidaService.gerarBebida();
         SobremesaEnum sobremesaEnum = sobremesaService.gerarSobremesa();

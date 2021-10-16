@@ -17,8 +17,8 @@ public class NoiteResouce {
 
 
     @GetMapping("/discovery/{genero}/{ano}")
-    public ResponseEntity<Object> discovery(@PathVariable("genero") String genero, @PathVariable("ano") Long ano){
-        return ResponseEntity.ok(noiteService.gerarNoite(genero, ano));
+    public ResponseEntity<Object> discovery(@PathVariable("genero") String genero, @PathVariable("ano") String ano, @PathVariable("nota") String nota, @PathVariable("votos") String votos) throws Exception {
+        return ResponseEntity.ok(noiteService.gerarNoite(genero, ano, nota, votos));
     }
 
 }
