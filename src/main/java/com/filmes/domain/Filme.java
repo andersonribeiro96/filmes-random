@@ -11,13 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Filme {
 
-    private String nome;
     private String link;
-    private String urlImage;
-    private String description;
-    private String qtdvotos;
-    private String nota;
-    private ImdbRating rating;
-
-
+    private MovieDetails movieDetails;
 }

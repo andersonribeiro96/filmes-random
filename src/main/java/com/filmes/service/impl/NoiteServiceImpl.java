@@ -11,13 +11,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class NoiteServiceImpl implements NoiteService {
 
-    private final GerarFilmeService gerarFilmeService;
+    private final FilmeService filmeService;
     private final ComidaService comidaService;
     private final BebidaService bebidaService;
     private final SobremesaService sobremesaService;
 
-    public NoiteServiceImpl(GerarFilmeService gerarFilmeService, ComidaService comidaService, BebidaService bebidaService, SobremesaService sobremesaService) {
-        this.gerarFilmeService = gerarFilmeService;
+    public NoiteServiceImpl(FilmeService filmeService, ComidaService comidaService, BebidaService bebidaService, SobremesaService sobremesaService) {
+        this.filmeService = filmeService;
         this.comidaService = comidaService;
         this.bebidaService = bebidaService;
         this.sobremesaService = sobremesaService;
@@ -25,7 +25,7 @@ public class NoiteServiceImpl implements NoiteService {
 
     @Override
     public Noite gerarNoite(String genero, String nota)  {
-        Filme filme = gerarFilmeService.gerarFilme(genero, nota);
+        Filme filme = filmeService.criaFilme(genero, nota);
         ComidaEnum comidaEnum = comidaService.gerarComida();
         BebidaEnum bebidaEnum = bebidaService.gerarBebida();
         SobremesaEnum sobremesaEnum = sobremesaService.gerarSobremesa();
