@@ -44,9 +44,8 @@ public class GerarFilmeServiceImpl implements GerarFilmeService {
         }
 
         IMBD imbd = tmdbRestTemplate.obterCodigoImdb(filme.getId());
-        ImdbRating imdbRating = tmdbRestTemplate.obterRating(imbd.getImdb_id());
 
-        return criarFilme(filme, providerWatch, imdbRating);
+        return criarFilme(filme, providerWatch);
     }
 
 
@@ -62,7 +61,7 @@ public class GerarFilmeServiceImpl implements GerarFilmeService {
         return flatrate.stream().anyMatch(fla -> ls.contains(fla.getProvider_id()));
     }
 
-    private Filme criarFilme(Resultado filme, ProviderWatch providerWatch, ImdbRating rating) {
+    private Filme criarFilme(Resultado filme, ProviderWatch providerWatch) {
         return Filme.builder()
                 .nome(filme.getTitulo())
                 .link(providerWatch.getBR().getLink())
@@ -70,7 +69,6 @@ public class GerarFilmeServiceImpl implements GerarFilmeService {
                 .description(filme.getOverview())
                 .nota(filme.getVoteAverage())
                 .qtdvotos(filme.getVoteCount())
-                .rating(rating)
                 .build();
     }
 
