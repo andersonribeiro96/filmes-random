@@ -17,6 +17,7 @@ public class Filme {
     private String description;
     private String qtdvotos;
     private String nota;
+    private ImdbRating rating;
 
 
 }

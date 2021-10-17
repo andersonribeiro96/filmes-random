@@ -1,9 +1,6 @@
 package com.filmes.service.impl;
 
-import com.filmes.domain.Json;
-import com.filmes.domain.ProviderWatch;
-import com.filmes.domain.Resultado;
-import com.filmes.domain.Root;
+import com.filmes.domain.*;
 import com.filmes.service.TmdbRestTemplateService;
 import com.filmes.web.exception.CaracteristicasNaoEncontradaException;
 import org.slf4j.Logger;
@@ -61,8 +58,26 @@ public class TmdbRestTemplateServiceImpl implements TmdbRestTemplateService {
         return resultados;
     }
 
+
+    public IMBD obterCodigoImdb(String id){
+        return restTemplate.getForObject(montarURL(id), IMBD.class);
+    }
+
+    public ImdbRating obterRating(String id){
+        return restTemplate.getForObject(montarURLIMDB(id), ImdbRating.class);
+    }
+
     private String montarURL(String generos, String nota, int pagina) {
         return "https://api.themoviedb.org/3/discover/movie?api_key=0f99ba5808dd030a7732da55682410e6&language=en-US&sort_by=vote_average.desc&include_adult=false&include_video=false&page=".concat(String.valueOf(pagina)) + "&with_genres=".concat(generos) + "&with_watch_providers=8%7C9%7C119%7C337%7C619&watch_region=BR&with_watch_monetization_types=flatrate&vote_average.gte=".concat(nota);
     }
+
+    private String montarURL(String id){
+        return "https://api.themoviedb.org/3/movie/"+id+"?api_key=0f99ba5808dd030a7732da55682410e6&language=en-US";
+    }
+
+    private String montarURLIMDB(String id){
+        return "https://imdb-api.com/en/API/Ratings/k_emuw6kl5/" +id;
+    }
+
 
 }
