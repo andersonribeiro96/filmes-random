@@ -15,6 +15,8 @@ public class Filme {
     private String link;
     private String urlImage;
     private String description;
+    private String qtdvotos;
+    private String nota;
 
 
 }

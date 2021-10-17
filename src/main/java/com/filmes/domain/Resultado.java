@@ -21,5 +21,10 @@ public class Resultado implements Serializable {
     @JsonProperty("overview")
     private String overview;
 
+    @JsonProperty("vote_count")
+    private String voteCount;
+
+    @JsonProperty("vote_average")
+    private String voteAverage;
     
 }

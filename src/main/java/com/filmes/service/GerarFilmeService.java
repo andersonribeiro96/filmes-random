@@ -4,5 +4,5 @@ import com.filmes.domain.Filme;
 
 
 public interface GerarFilmeService {
-    Filme gerarFilme(String genero, String ano, String nota, String votos) throws Exception;
+    Filme gerarFilme(String genero, String nota);
 }

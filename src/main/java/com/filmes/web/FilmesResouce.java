@@ -14,13 +14,13 @@ public class FilmesResouce {
 
     private final GerarFilmeService gerarFilmeService;
 
-    public FilmesResouce( GerarFilmeService gerarFilmeService) {
+    public FilmesResouce(GerarFilmeService gerarFilmeService) {
         this.gerarFilmeService = gerarFilmeService;
     }
 
-    @GetMapping("/discovery/year/{genero}/{ano}/{nota}/{votos}")
-    public ResponseEntity<Object> discovery(@PathVariable("genero") String genero, @PathVariable("ano") String ano, @PathVariable("nota") String nota, @PathVariable("votos") String votos) throws Exception {
-        return ResponseEntity.ok(gerarFilmeService.gerarFilme(genero, ano, nota, votos));
+    @GetMapping("/discovery/year/{genero}/{nota}")
+    public ResponseEntity<Object> discovery(@PathVariable("genero") String genero, @PathVariable("nota") String nota) {
+        return ResponseEntity.ok(gerarFilmeService.gerarFilme(genero, nota));
     }
 
 }

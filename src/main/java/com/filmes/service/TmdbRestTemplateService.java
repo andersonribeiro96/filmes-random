@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface TmdbRestTemplateService {
 
-    List<Resultado> obterFilmes(String genero, String ano, String nota, String votos) throws Exception;
+    List<Resultado> obterFilmes(String genero, String nota);
     ProviderWatch obterProviderWatch(String id);
 }

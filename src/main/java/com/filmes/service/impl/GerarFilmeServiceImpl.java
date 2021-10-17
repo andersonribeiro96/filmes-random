@@ -20,13 +20,13 @@ public class GerarFilmeServiceImpl implements GerarFilmeService {
     }
 
     @Override
-    public Filme gerarFilme(String genero, String ano, String nota, String votos) throws Exception {
-        return criarPorAno(genero, ano, nota, votos);
+    public Filme gerarFilme(String genero, String nota) {
+        return criarPorAno(genero, nota);
     }
 
-    private Filme criarPorAno(String genero, String ano, String nota, String votos) throws Exception {
+    private Filme criarPorAno(String genero, String nota) {
         int repeticao = 0;
-        List<Resultado> resultados = tmdbRestTemplate.obterFilmes(genero, ano, nota, votos);
+        List<Resultado> resultados = tmdbRestTemplate.obterFilmes(genero, nota);
         Resultado filme = gerarFilmeAleatorio(resultados);
         ProviderWatch providerWatch = tmdbRestTemplate.obterProviderWatch(filme.getId());
 
@@ -38,7 +38,7 @@ public class GerarFilmeServiceImpl implements GerarFilmeService {
             watch = verificarProviderWatch(providerWatch);
             repeticao++;
 
-            if(repeticao == 100){
+            if (repeticao == 100) {
                 throw new ProviderWatchNaoEncontrandoException();
             }
         }
@@ -62,8 +62,10 @@ public class GerarFilmeServiceImpl implements GerarFilmeService {
         return Filme.builder()
                 .nome(filme.getTitulo())
                 .link(providerWatch.getBR().getLink())
-                .urlImage("https://image.tmdb.org/t/p/original"+ filme.getImagemPoster())
+                .urlImage("https://image.tmdb.org/t/p/original" + filme.getImagemPoster())
                 .description(filme.getOverview())
+                .nota(filme.getVoteAverage())
+                .qtdvotos(filme.getVoteCount())
                 .build();
     }
 

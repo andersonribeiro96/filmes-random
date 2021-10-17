@@ -29,8 +29,8 @@ public class TmdbRestTemplateServiceImpl implements TmdbRestTemplateService {
     }
 
     @Override
-    public List<Resultado> obterFilmes(String genero, String ano, String votos, String quantidadeDeVotos) {
-        return obterPorAno(genero, ano, quantidadeDeVotos, votos);
+    public List<Resultado> obterFilmes(String genero, String nota) {
+        return obterPorAno(genero, nota);
     }
 
     @Override
@@ -41,9 +41,9 @@ public class TmdbRestTemplateServiceImpl implements TmdbRestTemplateService {
     }
 
 
-    private List<Resultado> obterPorAno(String genero, String ano, String nota, String votos) {
+    private List<Resultado> obterPorAno(String genero, String nota) {
 
-        Json json = restTemplate.getForObject(montarURL(genero, ano, nota, votos, 1), Json.class);
+        Json json = restTemplate.getForObject(montarURL(genero, nota, 1), Json.class);
         int totalPage = Objects.requireNonNull(json).getTotal_pages();
 
         logger.info("total de resultados: " + json.getTotal_results());
@@ -55,14 +55,14 @@ public class TmdbRestTemplateServiceImpl implements TmdbRestTemplateService {
         }
 
         for (int i = 2; i <= totalPage; i++) {
-            json = restTemplate.getForObject(montarURL(genero, ano, nota, votos, i), Json.class);
+            json = restTemplate.getForObject(montarURL(genero, nota, i), Json.class);
             resultados.addAll(Objects.requireNonNull(json).getResults());
         }
         return resultados;
     }
 
-    private String montarURL(String generos, String ano, String nota, String votos, int pagina) {
-        return "https://api.themoviedb.org/3/discover/movie?api_key=0f99ba5808dd030a7732da55682410e6&language=en-US&sort_by=vote_average.desc&include_adult=false&include_video=false&page=".concat(String.valueOf(pagina)) + "&primary_release_year=".concat(ano) + "&with_genres=".concat(generos) + "&with_watch_providers=8%7C9%7C119%7C337%7C619&watch_region=BR&with_watch_monetization_types=flatrate&vote_count.gte=".concat(votos) + "&vote_average.gte=".concat(nota);
+    private String montarURL(String generos, String nota, int pagina) {
+        return "https://api.themoviedb.org/3/discover/movie?api_key=0f99ba5808dd030a7732da55682410e6&language=en-US&sort_by=vote_average.desc&include_adult=false&include_video=false&page=".concat(String.valueOf(pagina)) + "&with_genres=".concat(generos) + "&with_watch_providers=8%7C9%7C119%7C337%7C619&watch_region=BR&with_watch_monetization_types=flatrate&vote_average.gte=".concat(nota);
     }
 
 }
